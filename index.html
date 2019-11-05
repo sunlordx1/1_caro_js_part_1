@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cờ caro</title>
+    <style>
+        /* Code body trước */
+        body{
+            margin:0;
+            padding: 0;
+            
+        }
+      /* Sau khi lặp để sinh ra bảng , thắc mắc tại sao ko hiện gì, vì chưa css cho td */
+        table{
+            margin: 0 auto; 
+            /* Căn table ra giữa */
+        }
+        #title{
+            text-align: center;
+        }
+        #info{
+            min-width: 30%;
+            max-width: 100%;
+            margin: 0 auto;
+            display: table;
+        }
+        #board td {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+            
+            /* css thêm sau cùng */
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 28px;
+            text-align: center;
+			font-weight: bold;
+			transition: all 0.5s ease;
+            }
+        td:hover{
+            background: greenyellow;
+            color: white;
+        }
+        .clearfix{
+            clear:both;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">
+        Cờ caro
+    </div>
+    <div id="info">
+        Lượt chọn: <span id="current-turn"></span>
+    </div>
+    <table>
+   
+        <tbody id="board">
+            <!-- Bàn cờ ở đây -->
+            
+        </tbody>
+    </table>
+    <script>
+            //Nói về ý tưởng sử dụng element table để làm bảng chứa bàn đấu
+            var column_num = 10; // Số cột dọc
+            var row_num = 10;  // Số cột ngang
+            var current_turn='X';
+            // Giải thích về cách lặp dòng thay vì lặp cột
+            for (let i = 0; i < row_num; i++) { 
+                let row = document.createElement('tr');
+                    for (let j = 0; j < column_num; j++) {
+                            let column = document.createElement('td');
+                            column.setAttribute('x',j); // Tọa độ X
+                            column.setAttribute('y',i); // Tọa độ Y
+                            column.setAttribute('onclick','pick(this)'); // Sau khi css td thì thêm attr này vào, giải thích cần bắt sự kiện click khi người chơi chọn 1 ô
+                            row.appendChild(column); // Sinh ra các cột vừa lặp đặt nó vào bên trong biến row ( cột ngang)
+                    }
+                document.getElementById('board').appendChild(row); // Sinh ra các dòng tương ứng sau khi đã lặp và thêm cột từ vòng lặp trên
+                showCurrentTurn()// Hiển thị lượt chơi hiện tại
+            }
+            function showCurrentTurn(){
+                document.getElementById('current-turn').innerText=current_turn;
+            }
+            //Tạo 1 hàm pick tương ứng sau khi set attr onclick
+            function pick(element){
+                if(element.innerText==''){
+                    element.innerText=current_turn // Test thử xem đã click chưa
+                    current_turn=='X'?current_turn='O':current_turn='X'; // Thay đổi loại sau khi pick 1 ô
+                    // Tìm hiểu thấy pick chọn thì tự thay đổi ô , nghĩa là người dùng ấn thì ô đó sẽ không thay đổi, tạo ra 1 hàm if để chứa nó
+                    showCurrentTurn();
+                }
+            }
+            
+      
+    </script>
+</body>
+</html>
